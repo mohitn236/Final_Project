@@ -173,7 +173,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
+package ca.ucalgary.edu.ensf380;
 
 import javax.swing.*;
 import java.awt.*;
@@ -198,6 +198,8 @@ public class MyApp3 extends JFrame implements ActionListener {
     private JButton stopButton;
     private Process process;
     private ExecutorService executor;
+    private JLabel weatherLabel;
+
 
     public MyApp3() {
         setTitle("Subway Screen 3");
@@ -234,6 +236,15 @@ public class MyApp3 extends JFrame implements ActionListener {
         setVisible(true);
 
         executor = Executors.newFixedThreadPool(2);
+        
+     // Weather display setup
+        weatherLabel = new JLabel("Fetching weather data...");
+        JPanel weatherPanel = new JPanel();
+        weatherPanel.add(weatherLabel);
+        add(weatherPanel, BorderLayout.NORTH);
+
+        fetchWeatherData("Calgary,CA");
+        
     }
 
     @Override
@@ -319,5 +330,13 @@ public class MyApp3 extends JFrame implements ActionListener {
             frame.setVisible(true);
         });
     }
+    
+    private void fetchWeatherData(String cityCode) {
+        SwingUtilities.invokeLater(() -> {
+            String weatherReport = WeatherFetcher.fetchWeatherData(cityCode);
+            weatherLabel.setText(weatherReport);
+        });
+    }
+
 }
 
