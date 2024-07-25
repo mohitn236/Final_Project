@@ -1,4 +1,5 @@
 package ca.ucalgary.edu.ensf380;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -13,12 +14,12 @@ public class WeatherPanel extends JPanel {
         weatherLabel = new JLabel("Weather Information");
         weatherLabel.setForeground(Color.WHITE);
         add(weatherLabel);
-        updateWeather("5913490"); // Example city code for Calgary
+        updateWeather("Calgary,CA"); // Example city code for Calgary
     }
 
     private void updateWeather(String cityCode) {
         try {
-            ProcessBuilder builder = new ProcessBuilder("java", "-jar", "WeatherFetcher.jar", cityCode, "YOUR_API_KEY");
+            ProcessBuilder builder = new ProcessBuilder("java", "-cp", ".", "ca.ucalgary.edu.ensf380.WeatherFetcher", cityCode);
             Process process = builder.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;

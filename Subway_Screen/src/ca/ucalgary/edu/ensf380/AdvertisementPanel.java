@@ -1,32 +1,32 @@
 package ca.ucalgary.edu.ensf380;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.List;
+import ca.ucalgary.edu.ensf380.TrainPanel.TrainStation;
 
 public class AdvertisementPanel extends JPanel {
-    private JLabel advertisementLabel;
-    private int currentAdIndex = 0;
-    private String[] advertisements = {"Ad 1", "Ad 2", "Ad 3"};
+    private List<TrainStation> stations;
 
-    public AdvertisementPanel() {
-        setBackground(Color.BLUE);
-        setPreferredSize(new Dimension(600, 400));
-        advertisementLabel = new JLabel(advertisements[currentAdIndex]);
-        advertisementLabel.setForeground(Color.WHITE);
-        add(advertisementLabel);
-        
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateAdvertisement();
-            }
-        }, 0, 10000); // Update ad every 10 seconds
+    public AdvertisementPanel(List<TrainStation> stations) {
+        this.stations = stations;
+        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(800, 600));
     }
 
-    private void updateAdvertisement() {
-        currentAdIndex = (currentAdIndex + 1) % advertisements.length;
-        advertisementLabel.setText(advertisements[currentAdIndex]);
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        drawTrainPositions(g);
+    }
+
+    private void drawTrainPositions(Graphics g) {
+        g.setColor(Color.BLUE);
+        for (TrainStation station : stations) {
+            int x = (int) station.x;
+            int y = (int) station.y;
+            g.fillOval(x, y, 10, 10);
+            g.drawString(station.stationName, x, y - 5);
+        }
     }
 }

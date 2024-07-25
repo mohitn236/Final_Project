@@ -1,13 +1,16 @@
 package ca.ucalgary.edu.ensf380;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WeatherFetcher {
 
     public static String fetchWeatherData(String cityCode) {
-        String urlString = "http://wttr.in/" + cityCode + "?format=%C+%t";
+        String urlString = "https://wttr.in/" + cityCode;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -31,8 +34,17 @@ public class WeatherFetcher {
     }
 
     private static String parseWeatherData(String htmlContent) {
-        // wttr.in provides data in plain text, so parsing might not need regex, just extraction
-        return htmlContent.trim();
+        // Regex pattern to extract weather condition and temperature
+        Pattern pattern = Pattern.compile("<span class=\"current-weather__description\">(.*?)<\\/span>.*?<span class=\"current-weather__temp\">(.*?)<\\/span>", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(htmlContent);
+
+        if (matcher.find()) {
+            String condition = matcher.group(1).trim();
+            String temperature = matcher.group(2).trim();
+            return "Weather: " + condition + ", Temperature: " + temperature;
+        } else {
+            return "Weather data not found.";
+        }
     }
 
     public static void main(String[] args) {
