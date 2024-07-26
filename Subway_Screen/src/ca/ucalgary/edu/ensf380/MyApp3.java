@@ -14,8 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author Mahdi Ansari
- *
+ * Author: Mahdi Ansari
  */
 public class MyApp3 extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;

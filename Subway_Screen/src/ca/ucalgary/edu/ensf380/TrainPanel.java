@@ -46,10 +46,20 @@ public class TrainPanel extends JPanel {
 
     private void updateTrainInfo() {
         if (!stations.isEmpty()) {
-            TrainStation nextStation = stations.get(0); // Mock data for now
-            String transferInfo = "You can change to line blue";
+            // Fetch actual train data from a source
+            StringBuilder trainInfo = new StringBuilder();
+            for (TrainStation station : stations) {
+                trainInfo.append("Line: ").append(station.lineCode)
+                        .append(", Station: ").append(station.stationName)
+                        .append(", Code: ").append(station.stationCode)
+                        .append(", Position: (").append(station.x).append(", ").append(station.y).append(")<br>");
+            }
 
-            trainLabel.setText("<html>Next Stop: " + nextStation.stationName + "<br>" + transferInfo + "</html>");
+            // Example update, should be replaced with actual dynamic data
+            String transferInfo = "You can change to line blue";
+            trainLabel.setText("<html>Next Stops:<br>" + trainInfo.toString() + "<br>" + transferInfo + "</html>");
+        } else {
+            trainLabel.setText("No train information available.");
         }
     }
 
